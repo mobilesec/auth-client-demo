@@ -27,7 +27,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
 	 * 
 	 */
 	private void startAuth() {
-		Intent intent = new Intent(IntentIntegrator.ACTION_START_AUTH);
+		Intent intent = new Intent(IntentIntegrator.Actions.ACTION_START_AUTH);
 		startActivityForResult(intent, IntentIntegrator.REQUEST_CODE);
 	}
 }
