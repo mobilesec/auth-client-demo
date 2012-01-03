@@ -10,11 +10,49 @@
         android:text="This app shows how to request authentication using the Authentication framework.
         	Press the button below to simulate an application that needs an authentication result now." />
 
-    <Button
-        android:id="@+id/btn_auth"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assigned user: " />
+        <TextView
+            android:id="@+id/txt_assigned_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_assign_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="Assign a user" />
+
+        <Button
+            android:id="@+id/btn_auth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="Authenticate!" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/check_restrict"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Authenticate!"
-        android:onClick="onClick" />
+        android:text="Restrict to face recognition mode" />
 
 </LinearLayout>
