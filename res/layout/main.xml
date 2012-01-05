@@ -50,7 +50,13 @@
     </LinearLayout>
 
     <CheckBox
-        android:id="@+id/check_restrict"
+        android:id="@+id/check_restrict_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restrict to password authentication" />
+
+    <CheckBox
+        android:id="@+id/check_restrict_face_rec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Restrict to face recognition mode" />
