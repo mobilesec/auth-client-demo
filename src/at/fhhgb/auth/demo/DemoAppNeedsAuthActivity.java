@@ -14,9 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import at.fhhgb.auth.intent.IntentIntegrator;
-import at.fhhgb.auth.intent.IntentIntegrator.AuthModes;
-import at.fhhgb.auth.intent.IntentIntegrator.Extras;
+import at.fhhgb.auth.lib.intent.IntentIntegrator;
+import at.fhhgb.auth.lib.intent.IntentIntegrator.AuthModes;
+import at.fhhgb.auth.lib.intent.IntentIntegrator.Extras;
 import at.fhhgb.auth.provider.AuthDb.Subject;
 
 public class DemoAppNeedsAuthActivity extends Activity {
