@@ -2,6 +2,7 @@ package at.fhhgb.auth.demo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import at.fhhgb.auth.lib.intent.IntentIntegrator;
 import at.fhhgb.auth.lib.intent.IntentIntegrator.AuthModes;
 import at.fhhgb.auth.lib.intent.IntentIntegrator.Extras;
+import at.fhhgb.auth.lib.util.UIUtils;
 import at.fhhgb.auth.provider.AuthDb.Subject;
 
 public class DemoAppNeedsAuthActivity extends Activity {
@@ -25,6 +27,8 @@ public class DemoAppNeedsAuthActivity extends Activity {
 	
 	private static final String PREF_KEY_USER_ID = "userId";
 	private static final int REQUEST_ASSIGN_USER = 1;
+	private static final int REQUEST_AUTH = 2;
+	
 	private Button btnAssignUser;
 	private Button btnAuth;
 	private CheckBox checkRestrictAuthToPassword;
@@ -81,7 +85,35 @@ public class DemoAppNeedsAuthActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_ASSIGN_USER && resultCode == RESULT_OK) {
 			handleUserAssignment(data);
+		} else if (requestCode == REQUEST_AUTH) {
+			handleAuthResult(resultCode, data);
 		}
+	}
+
+	private void handleAuthResult(int resultCode, Intent data) {
+		if (resultCode == RESULT_OK && data.getBooleanExtra(Extras.EXTRA_RESULT, false)) {
+			showAuthSuccessDialog();
+		} else {
+			UIUtils.showErrorDialog(this, "Could not authenticate", "Authentication was unsuccessful!", 
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+		}
+	}
+
+	private void showAuthSuccessDialog() {
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setIcon(android.R.drawable.ic_dialog_info);
+		builder.setTitle("Success!");
+		builder.setMessage("You have been successfully authenticated!");
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		builder.show();
 	}
 
 	private void handleUserAssignment(Intent data) {
@@ -110,7 +142,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
 		assignAuthMethodExtras(intent);
 		
 		Log.d(TAG, "Starting authentication intent: " + intent.toString());
-		startActivityForResult(intent, IntentIntegrator.REQUEST_CODE);
+		startActivityForResult(intent, REQUEST_AUTH);
 	}
 
 	/**
