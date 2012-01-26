@@ -60,5 +60,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Restrict to face recognition mode" />
+    
+    <CheckBox
+        android:id="@+id/check_restrict_voice_rec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restrict to voice recognition mode" />
 
 </LinearLayout>

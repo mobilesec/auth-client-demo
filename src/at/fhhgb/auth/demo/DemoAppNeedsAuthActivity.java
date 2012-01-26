@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import at.fhhgb.auth.lib.intent.IntentIntegrator;
 import at.fhhgb.auth.lib.intent.IntentIntegrator.AuthModes;
 import at.fhhgb.auth.lib.intent.IntentIntegrator.Extras;
@@ -33,7 +34,11 @@ public class DemoAppNeedsAuthActivity extends Activity {
 	private Button btnAuth;
 	private CheckBox checkRestrictAuthToPassword;
 	private CheckBox checkRestrictAuthToFaceRec;
+	private CheckBox checkRestrictAuthToVoiceRec;
+	private TextView txtAssignedUser;
+	
 	private String userId;
+
 	
     /** Called when the activity is first created. */
     @Override
@@ -41,10 +46,12 @@ public class DemoAppNeedsAuthActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        txtAssignedUser = (TextView) findViewById(R.id.txt_assigned_user);
         btnAssignUser = (Button) findViewById(R.id.btn_assign_user);
         btnAuth = (Button) findViewById(R.id.btn_auth);
         checkRestrictAuthToPassword = (CheckBox) findViewById(R.id.check_restrict_pw);
         checkRestrictAuthToFaceRec = (CheckBox) findViewById(R.id.check_restrict_face_rec);
+        checkRestrictAuthToVoiceRec = (CheckBox) findViewById(R.id.check_restrict_voice_rec);
         
         // find out if we already have a user
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -53,7 +60,9 @@ public class DemoAppNeedsAuthActivity extends Activity {
         if (userId == null) {
         	showHintDialog();
         	btnAuth.setEnabled(false);
-        } 
+        } else {
+        	txtAssignedUser.setText(userId);
+        }
     }
     
 	private void showHintDialog() {
@@ -126,6 +135,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
 		editor.commit();
 		
 		btnAuth.setEnabled(true);
+    	txtAssignedUser.setText(userId);
 	}
 
 	private void assignUser() {
@@ -145,14 +155,13 @@ public class DemoAppNeedsAuthActivity extends Activity {
 		startActivityForResult(intent, REQUEST_AUTH);
 	}
 
-	/**
-	 * @param intent
-	 */
 	private void assignAuthMethodExtras(Intent intent) {
 		if (checkRestrictAuthToPassword.isChecked()) {
 			intent.putExtra(Extras.EXTRA_AUTH_TYPE, AuthModes.PASSWORD);
 		} else if (checkRestrictAuthToFaceRec.isChecked()) {
 			intent.putExtra(Extras.EXTRA_AUTH_TYPE, AuthModes.FACE_RECOGNITION);
+		} else if (checkRestrictAuthToVoiceRec.isChecked()) {
+			intent.putExtra(Extras.EXTRA_AUTH_TYPE, AuthModes.VOICE_RECOGNITION);
 		}
 	}
 }
