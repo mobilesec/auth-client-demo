@@ -22,6 +22,13 @@ import at.fhhgb.auth.lib.intent.IntentIntegrator.Extras;
 import at.fhhgb.auth.lib.util.UIUtils;
 import at.fhhgb.auth.provider.AuthDb.Subject;
 
+/**
+ * This activity simulates a client of the authentication framework.
+ * It needs to assign a single user id, and then in the future may request
+ * that the current user be authenticated as that user.
+ * @author thomaskaiser
+ *
+ */
 public class DemoAppNeedsAuthActivity extends Activity {
 	
 	private static final String TAG = "DemoAppNeedsAuthActivity";
@@ -30,7 +37,6 @@ public class DemoAppNeedsAuthActivity extends Activity {
 	private static final int REQUEST_ASSIGN_USER = 1;
 	private static final int REQUEST_AUTH = 2;
 	
-	private Button btnAssignUser;
 	private Button btnAuth;
 	private CheckBox checkRestrictAuthToPassword;
 	private CheckBox checkRestrictAuthToFaceRec;
@@ -47,7 +53,6 @@ public class DemoAppNeedsAuthActivity extends Activity {
         setContentView(R.layout.main);
         
         txtAssignedUser = (TextView) findViewById(R.id.txt_assigned_user);
-        btnAssignUser = (Button) findViewById(R.id.btn_assign_user);
         btnAuth = (Button) findViewById(R.id.btn_auth);
         checkRestrictAuthToPassword = (CheckBox) findViewById(R.id.check_restrict_pw);
         checkRestrictAuthToFaceRec = (CheckBox) findViewById(R.id.check_restrict_face_rec);
@@ -65,6 +70,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
         }
     }
     
+    /** Shows a dialog informing the user that he has to assign a user id. */
 	private void showHintDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Assign user");
@@ -99,6 +105,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
 		}
 	}
 
+	/** Handles the authentication result, showing a dialog informing the user. */
 	private void handleAuthResult(int resultCode, Intent data) {
 		if (resultCode == RESULT_OK && data.getBooleanExtra(Extras.EXTRA_RESULT, false)) {
 			showAuthSuccessDialog();
@@ -125,6 +132,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
 		builder.show();
 	}
 
+	/** Stores the user id into preferences. */
 	private void handleUserAssignment(Intent data) {
 		Uri assignedUserUri = data.getData();
 		userId = assignedUserUri.getLastPathSegment();
@@ -155,6 +163,7 @@ public class DemoAppNeedsAuthActivity extends Activity {
 		startActivityForResult(intent, REQUEST_AUTH);
 	}
 
+	/** Adds the requested auth method, if any, to the intent. */
 	private void assignAuthMethodExtras(Intent intent) {
 		if (checkRestrictAuthToPassword.isChecked()) {
 			intent.putExtra(Extras.EXTRA_AUTH_TYPE, AuthModes.PASSWORD);
